@@ -152,4 +152,39 @@ public class Address implements Comparable< Address > {
 		return true;
 	}
 
+	/**
+	 * @return the line1
+	 */
+	public String getLine1() {
+		return line1;
+	}
+
+	/**
+	 * @return the line2
+	 */
+	public String getLine2() {
+		return line2;
+	}
+
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/**
+	 * @return the state
+	 */
+	public String getState() {
+		return state;
+	}
+
+	/**
+	 * @return the zip
+	 */
+	public Integer getZip() {
+		return zip;
+	}
+
 }

@@ -27,11 +27,11 @@ public class Donor extends Recipient implements Person {
 	public Donor( String firstName, String lastName, String orgName, String donorType, String donation, Address address ) {
 		super( address );
 		
-		first = firstName;
-		last = lastName;
-		org = orgName;
-		this.donorType = donorType;
-		this.donation = donation;
+		first = firstName == null ? "" : firstName;
+		last = lastName == null ? "" : lastName;
+		org = orgName == null ? "" : orgName;
+		this.donorType = donorType == null ? "" : donorType;
+		this.donation = donation == null ? "" : donation;
 	}
 	
 	/**

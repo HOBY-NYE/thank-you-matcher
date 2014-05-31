@@ -26,7 +26,7 @@ public abstract class Writer implements Comparable< Writer > {
 	 * @param recipient
 	 */
 	public void addRecipient( Recipient recipient ) {
-		
+		recipients.add( recipient );
 	}
 	
 	/**
