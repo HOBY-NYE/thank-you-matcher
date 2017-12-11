@@ -8,9 +8,19 @@ repositories {
     jcenter()
 }
 
+dependencies {
+    compile 'org.apache.poi:poi-ooxml:3.17'
+}
+
 group       'org.hoby.nye'
 version     '1.1.0'
 description 'Creates an Excel spreadsheet with information about who a student should write a thank you letter to.'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.encoding    = 'UTF-8'
+}
 
 task Wrapper(type: Wrapper) {
     description      = 'Generates gradlew and gradlew.bat scripts'
