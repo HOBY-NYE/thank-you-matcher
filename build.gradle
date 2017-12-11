@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
+
 plugins {
     id 'java'
 }
@@ -13,5 +15,5 @@ description 'Creates an Excel spreadsheet with information about who a student s
 task Wrapper(type: Wrapper) {
     description      = 'Generates gradlew and gradlew.bat scripts'
     gradleVersion    = '4.4'
-    distributionType = DistributionType.Bin
+    distributionType = DistributionType.ALL
 }
