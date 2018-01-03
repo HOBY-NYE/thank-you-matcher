@@ -6,13 +6,6 @@ language: java
 jdk:
   - oraclejdk8
 
-addons:
-  sonarcloud:
-    organization: "hoby-nye"
-
-script:
-  - sonar-scanner
-
 cache:
   directories:
     - $HOME/.gradle/caches/

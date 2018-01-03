@@ -2,7 +2,6 @@ import org.gradle.api.tasks.wrapper.Wrapper.DistributionType
 
 plugins {
     id 'java'
-    id 'org.sonarqube' version '2.6.1'
 }
 
 repositories {
@@ -16,12 +15,6 @@ dependencies {
 group       'org.hoby.nye'
 version     '1.1.0'
 description 'Creates an Excel spreadsheet with information about who a student should write a thank you letter to.'
-
-sonarqube {
-    properties {
-
-    }
-}
 
 tasks.withType( JavaCompile ) {
     sourceCompatibility = 1.8
