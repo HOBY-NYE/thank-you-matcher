@@ -24,6 +24,6 @@ tasks.withType(JavaCompile) {
 
 task Wrapper(type: Wrapper) {
     description      = 'Generates gradlew and gradlew.bat scripts'
-    gradleVersion    = '4.4'
+    gradleVersion    = '4.5.1'
     distributionType = DistributionType.ALL
 }
