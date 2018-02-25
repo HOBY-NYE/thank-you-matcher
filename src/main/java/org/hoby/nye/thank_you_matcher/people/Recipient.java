@@ -1,9 +1,7 @@
-/**
- * 
- */
 package org.hoby.nye.thank_you_matcher.people;
 
 import org.hoby.nye.thank_you_matcher.utility.Address;
+import org.hoby.nye.thank_you_matcher.utility.ZipCode;
 
 /**
  * @author Tim
@@ -21,7 +19,16 @@ public abstract class Recipient {
 	 * @param zip
 	 */
 	public Recipient( String line1, String line2, String city, String state, String zip ) {
-		address = new Address( line1, line2, city, state, zip );
+		ZipCode zipCode;
+
+		if( zip.contains("-")) {
+			String[] split = zip.split("-");
+			zipCode = new ZipCode(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+		} else {
+			zipCode = new ZipCode(Integer.valueOf(zip));
+		}
+
+		address = new Address( line1, line2, city, state, zipCode );
 	}
 	
 	/**
@@ -32,7 +39,7 @@ public abstract class Recipient {
 	 * @param state
 	 * @param zip
 	 */
-	public Recipient( String line1, String line2, String city, String state, Integer zip ) {
+	public Recipient( String line1, String line2, String city, String state, ZipCode zip ) {
 		address = new Address( line1, line2, city, state, zip );
 	}
 	
@@ -44,8 +51,19 @@ public abstract class Recipient {
 	 * @param zip
 	 */
 	public Recipient( String street, String city, String state, String zip ) {
-		address = new Address( street, city, state, zip );
+		this(street, "", city, state, zip);
 	}
+
+    /**
+     *
+     * @param street
+     * @param city
+     * @param state
+     * @param zip
+     */
+    public Recipient( String street, String city, String state, ZipCode zip ) {
+        this( street, "", city, state, zip );
+    }
 	
 	/**
 	 * 
@@ -53,17 +71,6 @@ public abstract class Recipient {
 	 */
 	public Recipient( Address address ) {
 		this.address = address;
-	}
-	
-	/**
-	 * 
-	 * @param street
-	 * @param city
-	 * @param state
-	 * @param zip
-	 */
-	public Recipient( String street, String city, String state, Integer zip ) {
-		address = new Address( street, city, state, zip );
 	}
 	
 	/**
