@@ -1,18 +1,20 @@
-dist: trusty
-sudo: false
-
 language: java
 
-jdk:
-  - oraclejdk8
+dist: trusty
+sudo: false
+install: true
 
 addons:
   sonarcloud:
     organization: "hoby-nye"
-    token: ${SONAR_TOKEN}
-    github_token: ${GITHUB_TOKEN}
-    branches:
-      - *
+    token:
+      secure: "qrkyRLoBcyYQUAjQr9+uF1fcp/zbJlpG6vOSGQM04ipCJ6FV6gLyuDHGYPC8yyg3QOcZZ3tVNApu5PdqkA6h4aP5HzVpKJZb0R0PxQMbcLfn8FeBdzlN3mQH4KklCMtIpf0xJ5D6lidQi+L41Qfrx4qAEHBGQgK3gaQE4y7TCE5s/
+slQns9W7yrZueR9y1V1Yjh1l1RQCyc6+SNtKdHCmU8LPhShw2wXRdyey2KES/fpmP8GE7TLltp8xjAfZaWUWTXY0TuV3OKSKXUFyBAEG3SmK+yaH494q4lVoG1aj9l+LLaz0Ode9vGxeGMYMRsIAIXK9l68V5SnrZB5b7Zmq2Y6fRXmce1MjchOn
+S/wUvDOfAdCohPEm60QlJd7SOo9YPo1sGKDg1LKIIZ1Q9YmQsHfH8cvQ1YbWLWLr4H0Jk5vrcUmku4nT4Ty3knNGiG6eZms4rx4Osn6FYgMNXTnyZJkOUbnMDJWBQVyOagC7OiBGtYgG7hhNcMDP5BZ0Xf1onqhICSR2E8RMpfwCpfOknOIlVmLm
+IVBj7bjftQfgvLSOMeVzi+07lY8P96u1YYOyQvT4PbW67gg6HRwfS9QsKUiqBIO39l/BDgTzDDwMamRkB3gTFuHd7qPxhYwidUezCVWhYT4a0w+upBPLnSe6nEg1EpHDpCx6NJALpxc4og="
+
+jdk:
+  - oraclejdk8
 
 cache:
   directories:
@@ -27,5 +29,4 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 script:
-  - gradlew clean check
-  - sonar-scanner
+  - ./gradlew clean build sonarqube
