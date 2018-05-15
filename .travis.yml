@@ -6,7 +6,7 @@ install: true
 
 addons:
   sonarcloud:
-    organization: "hoby-nye"
+    organization: hoby-nye
     token:
       secure: "qrkyRLoBcyYQUAjQr9+uF1fcp/zbJlpG6vOSGQM04ipCJ6FV6gLyuDHGYPC8yyg3QOcZZ3tVNApu5PdqkA6h4aP5HzVpKJZb0R0PxQMbcLfn8FeBdzlN3mQH4KklCMtIpf0xJ5D6lidQi+L41Qfrx4qAEHBGQgK3gaQE4y7TCE5s/
 slQns9W7yrZueR9y1V1Yjh1l1RQCyc6+SNtKdHCmU8LPhShw2wXRdyey2KES/fpmP8GE7TLltp8xjAfZaWUWTXY0TuV3OKSKXUFyBAEG3SmK+yaH494q4lVoG1aj9l+LLaz0Ode9vGxeGMYMRsIAIXK9l68V5SnrZB5b7Zmq2Y6fRXmce1MjchOn
