@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.hoby.nye.thank_you_matcher;
 
 import java.io.File;
@@ -30,6 +27,7 @@ import org.hoby.nye.thank_you_matcher.people.Staff;
 import org.hoby.nye.thank_you_matcher.people.Student;
 import org.hoby.nye.thank_you_matcher.people.Writer;
 import org.hoby.nye.thank_you_matcher.utility.Address;
+import org.hoby.nye.thank_you_matcher.utility.ZipCode;
 
 /**
  * @author Tim
@@ -134,7 +132,7 @@ public class ThankYouMatcher {
 		if( !xlsx.exists() ) {
 			try {
 				xlsx.createNewFile();
-			} catch (IOException e) {
+  			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -642,14 +640,17 @@ public class ThankYouMatcher {
 		Cell stateCell = row.getCell( stateIndex );
 		if( stateCell == null ) { return null; }
 		String state = stateCell.getCellType() == Cell.CELL_TYPE_STRING || stateCell.getCellType() == Cell.CELL_TYPE_FORMULA ? stateCell.getStringCellValue() : "";
-		
-		Integer zip   = null;
+
+		ZipCode zip   = null;
 		Cell zipCell = row.getCell( zipIndex );
 		if( zipCell == null ) { return null; }
 		if( zipCell.getCellType() == Cell.CELL_TYPE_STRING || zipCell.getCellType() == Cell.CELL_TYPE_FORMULA ) {
-			zip = Integer.parseInt( zipCell.getStringCellValue() );
-		} else if( zipCell.getCellType() == Cell.CELL_TYPE_NUMERIC ) {
-			zip = (int) zipCell.getNumericCellValue();
+
+		    zip = new ZipCode(zipCell.getStringCellValue());
+
+		} else if( zipCell.getCellType() == Cell.CELL_TYPE_NUMERIC )
+        {
+			zip = new ZipCode((int)zipCell.getNumericCellValue());
 		}
 		
 		return new Address( street, city, state, zip );
@@ -657,7 +658,7 @@ public class ThankYouMatcher {
 	
 	/**
 	 * 
-	 * @param firsName
+	 * @param firstName
 	 * @param lastName
 	 */
 	private void addMatch( String firstName, String lastName, Recipient r ) {
