@@ -24,8 +24,8 @@ public class Donor extends Recipient implements Person {
 	 * @param donorType
 	 * @param address
 	 */
-	public Donor( String firstName, String lastName, String orgName, String donorType, String donation, Address address ) {
-		super( address );
+	public Donor( String firstName, String lastName, String orgName, String donorType, String donation, Address address, int letterCount ) {
+		super( address, letterCount );
 		
 		first = firstName == null ? "" : firstName;
 		last = lastName == null ? "" : lastName;
@@ -41,8 +41,8 @@ public class Donor extends Recipient implements Person {
 	 * @param donorType
 	 * @param address
 	 */
-	public Donor( String firstName, String lastName, String donorType, String donation, Address address ) {
-		this( firstName, lastName, "", donorType, donation, address );
+	public Donor( String firstName, String lastName, String donorType, String donation, Address address, int letterCount ) {
+		this( firstName, lastName, "", donorType, donation, address, letterCount );
 	}
 
 	/*

@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'java'
     id 'application'
     id "org.sonarqube" version "2.6.1"
@@ -17,6 +18,12 @@ version     = '1.1.0'
 description = 'Creates an Excel spreadsheet with information about who a student should write a thank you letter to.'
 
 mainClassName = 'org.hoby.nye.thank_you_matcher.ThankYouMatcher'
+
+jar {
+    manifest {
+        attributes('Main-Class': 'org.hoby.nye.thank_you_matcher.ThankYouMatcher')
+    }
+}
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = 1.8

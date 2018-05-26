@@ -13,11 +13,7 @@ import java.util.Queue;
 import java.util.Vector;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hoby.nye.thank_you_matcher.people.Donor;
 import org.hoby.nye.thank_you_matcher.people.JStaff;
@@ -85,7 +81,7 @@ public class ThankYouMatcher {
 		getStudentInfo();
 		
 		// Read the Staff workbook, add all non-J-Staff to the donor list and add J-Staff to the student list
-		getStaffInfo( donorList );
+		//getStaffInfo( donorList );
 		
 		/*
 		 * Read donor workbook pulling out information such name, organization, address, donor type, what was donated, and benefactor ( if one exists )
@@ -93,7 +89,10 @@ public class ThankYouMatcher {
 		 * If there is not a benefactor, add this donor to the list of donor that need letters
 		 */
 		getDonorInfo( donorList );
-		
+
+		int count = 0;
+		int priorCount = 0;
+
 		for( Iterator< Recipient > it = donorList.iterator(); it.hasNext(); ) {
 			/*
 			 *  Needed to add the JStaff back into the PriorityQueue
@@ -109,6 +108,12 @@ public class ThankYouMatcher {
 			} while( student instanceof JStaff );
 			
 			student.addRecipient( it.next() );
+			count++;
+			if (count - priorCount != 1)
+            {
+                System.out.print("");
+            }
+            priorCount=count;
 			studentList.addAll( storage );
 		}
 		
@@ -146,22 +151,24 @@ public class ThankYouMatcher {
 		Row header = matchSheet.createRow( 0 );
 		String[] headers = { "Student Name", "Student Section", "Student Group", "Donor Organization", "Donor Name", "Donor Address", "Donation" };
 		for( int i = 0; i < headers.length; i++ ) {
-			header.createCell( i ).setCellValue( headers[i] );
+			Cell cell = header.createCell( i );
+			cell.setCellValue( headers[i] );
 		}
 		
 		// Create and populate a row for each match up
 		int rownum = 0;
-		for( Iterator< Writer > it = studentList.iterator(); it .hasNext(); ) {
+		for( Iterator< Writer > it = studentList.iterator(); it.hasNext(); ) {
 			// JStaff can be treated as a Student here because the needed information is stored in the Student super class of JStaff
-			Student student = ( Student ) it.next();
-			
+
+            Student student = ( Student ) it.next();
+
 			// Create and populate a row for each recipient
 			for( Iterator< Recipient > it2 = student.getRecipientList().iterator(); it2.hasNext(); ) {
 				Row r = matchSheet.createRow( ++rownum );
 				r.createCell( 0 ).setCellValue( String.format( "%s %s", student.getFirstName(), student.getLastName() ) );
 				r.createCell( 1 ).setCellValue( student.getSection() );
 				r.createCell( 2 ).setCellValue( student.getGroup() );
-				
+
 				Recipient recip = it2.next();
 				if( recip instanceof Donor) {
 					Donor donor = ( Donor ) recip;
@@ -185,7 +192,18 @@ public class ThankYouMatcher {
 						r.createCell( 5 ).setCellValue( String.format( "%s %n%s, %s %s", address.getLine1(), address.getCity(), address.getState(), address.getZip() ) );
 					}
 					r.createCell( 6 ).setCellValue( speaker.getRole() );
-				}
+				} else if (recip instanceof Staff) {
+				    Staff staff = (Staff) recip;
+                    r.createCell( 3 ).setCellValue( "" );
+                    r.createCell( 4 ).setCellValue( String.format( "%s %s", staff.getFirstName(), staff.getLastName() ) );
+                    Address address = staff.getAddress();
+                    if( address == null ) {
+                        r.createCell( 5 ).setCellValue( "" );
+                    } else {
+                        r.createCell( 5 ).setCellValue( String.format( "%s %n%s, %s %s", address.getLine1(), address.getCity(), address.getState(), address.getZip() ) );
+                    }
+                    r.createCell( 6 ).setCellValue( staff.getPosition() );
+                }
 			}
 
 		}
@@ -310,7 +328,9 @@ public class ThankYouMatcher {
 		int cityIndex   = -1;
 		int stateIndex  = -1;
 		int zipIndex    = -1;
-		
+
+		int priorityIndex = -1;
+
 		Row header = staffSheet.getRow( 0 );
 		int numCells = header.getPhysicalNumberOfCells();
 		for( int i = 0; i < numCells; i++ ) {
@@ -338,11 +358,15 @@ public class ThankYouMatcher {
 				stateIndex = c.getColumnIndex();
 			} else if( value.matches( ".*Zip.*") ) {
 				zipIndex = c.getColumnIndex();
+			} else if( value.matches( ".*Letter Count.*") ) {
+				priorityIndex = c.getColumnIndex();
 			}
 			
 			if( firstIndex >= 0 && lastIndex >= 0 && groupIndex >= 0 && colorIndex >= 0 && roleIndex >= 0 ) {
 				if( streetIndex >= 0 && cityIndex >= 0 && stateIndex >= 0 && zipIndex >= 0 ) {
-					break;
+					if( priorityIndex >= 0 ) {
+						break;
+					}
 				}
 			}
 		}
@@ -373,20 +397,31 @@ public class ThankYouMatcher {
 			Cell rCell   = r.getCell( roleIndex );
 			if( rCell == null ) { continue; }
 			String role = ( rCell.getCellType() == Cell.CELL_TYPE_STRING || rCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? rCell.getStringCellValue() : "";
-			
+
+			Cell pCell   = r.getCell( priorityIndex );
+			if( pCell == null ) { continue; }
+			int priority = ( pCell.getCellType() == Cell.CELL_TYPE_NUMERIC || pCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? (int) pCell.getNumericCellValue() : 1;
+
 			if( first == "" && last == "" ) {
 				continue;
 			}
-			
+
+			Address address = getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex );
+			Staff s;
 			if( role.matches( "Section Leader") ) {
-				donorList.add( new Staff( first, last, String.format( "%s %s", section, role ), getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex ) ) );
+			    s = new Staff( first, last, String.format( "%s %s", section, role ), address, priority );
 			} else if( role.matches( "Facilitator" ) ) {
-				donorList.add( new Staff( first, last, String.format( "%s %s", group, role ), getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex ) ) );
+				s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
 			} else if( role.matches( "J-Staff") || role.matches( "Junior Staff") || role.matches( "J Staff") ) {
 				studentList.add( new JStaff( first, last, section, group ) );
+                s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
 			} else {
-				donorList.add( new Staff( first, last, role, getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex ) ) );
+				s = new Staff( first, last, role, address, priority );
 			}
+
+            for( int j = 0; j < priority; j++ ) {
+                donorList.add(s);
+            }
 		}
 	}
 	
@@ -413,6 +448,16 @@ public class ThankYouMatcher {
 			}
 		}
 		readSpeakers( donors.getSheet( sheetName ), donorList );
+
+		// The Staff are on a sheet called Staff
+        for( int i = 0; i < donors.getNumberOfSheets(); i++ ) {
+            if( donors.getSheetName( i ).matches( ".*Staff.*" ) ) {
+                sheetName = donors.getSheetName( i );
+                break;
+            }
+        }
+        readStaff( donors.getSheet( sheetName ), donorList );
+        System.out.println();
 	}
 	
 	/**
@@ -432,7 +477,11 @@ public class ThankYouMatcher {
 		int beneTypeIndex  = -1;
 		int beneFirstIndex = -1;
 		int beneLastIndex  = -1;
-		
+
+		int priorityIndex = -1;
+
+		int donorCount = 0;
+
 		Row header = donorSheet.getRow( 0 );
 		int numCells = header.getPhysicalNumberOfCells();
 		for( int i = 0; i < numCells; i++ ) {
@@ -464,12 +513,16 @@ public class ThankYouMatcher {
 				beneLastIndex = c.getColumnIndex();
 			} else if( value.matches( ".*Beneficiary Type.*") ) {
 				beneTypeIndex = c.getColumnIndex();
+			} else if( value.matches( ".*Letter Count.*") ) {
+				priorityIndex = c.getColumnIndex();
 			}
 			
 			if( firstIndex >= 0 && lastIndex >= 0 && orgIndex >= 0 && typeIndex >= 0) {
 				if( streetIndex >= 0 && cityIndex >= 0 && stateIndex >= 0 && zipIndex >= 0 ) {
 					if( beneTypeIndex >= 0 && beneFirstIndex >= 0 && beneLastIndex >=0 ) {
-						break;
+						if( priorityIndex >= 0 ) {
+							break;
+						}
 					}
 				}
 			}
@@ -501,12 +554,16 @@ public class ThankYouMatcher {
 			String type = "";
 			Cell typeCell = r.getCell( typeIndex );
 			if( typeCell != null ) { type = typeCell.getStringCellValue(); }
+
+			int count = 1;
+			Cell countCell = r.getCell( priorityIndex );
+			if( countCell != null ) { count = (int)countCell.getNumericCellValue(); }
 			
 			if( first == "" && last == "" && org == "" ) {
 				continue;
 			}
-			Donor donor = new Donor( first, last, org, type, "", address );
-			
+			Donor donor = new Donor( first, last, org, type, "", address, count );
+			donorCount++;
 			// If this donor sponsored a student or j-staff, add it
 			String beneType = "";
 			Cell beneTypeCell = r.getCell( beneTypeIndex );
@@ -529,10 +586,12 @@ public class ThankYouMatcher {
 				addMatch( beneFirst, beneLast, donor );
 				continue;
 			}
-			
-			donorList.add( donor );
+
+			for( int j = 0; j < count; j++ ) {
+                donorList.add(donor);
+            }
 		}
-		
+		System.out.println(donorCount);
 	}
 	
 	/**
@@ -548,6 +607,8 @@ public class ThankYouMatcher {
 		int cityIndex   = -1;
 		int stateIndex  = -1;
 		int zipIndex    = -1;
+
+		int priorityIndex = -1;
 		
 		Row header = donorSheet.getRow( 0 );
 		int numCells = header.getPhysicalNumberOfCells();
@@ -574,11 +635,15 @@ public class ThankYouMatcher {
 				stateIndex = c.getColumnIndex();
 			} else if( value.matches( ".*Zip.*") ) {
 				zipIndex = c.getColumnIndex();
-			}
+			} else if( value.matches( ".*Letter Count.*") ) {
+                priorityIndex = c.getColumnIndex();
+            }
 			
 			if( titleIndex >= 0 && firstIndex >= 0 && lastIndex >= 0 && roleIndex >= 0) {
 				if( streetIndex >= 0 && cityIndex >= 0 && stateIndex >= 0 && zipIndex >= 0 ) {
-					break;
+				    if( priorityIndex >= 0 ) {
+                        break;
+                    }
 				}
 			}
 		}
@@ -609,15 +674,130 @@ public class ThankYouMatcher {
 			String role = "";
 			Cell roleCell = r.getCell( roleIndex );
 			if( roleCell != null ) { role = roleCell.getStringCellValue(); }
+
+            int count = 1;
+            Cell countCell = r.getCell( priorityIndex );
+            if( countCell != null ) { count = (int)countCell.getNumericCellValue(); }
 			
 			if( first == "" && last == "" ) {
 				continue;
 			}
-			Speaker speaker = new Speaker( title, first, last, role, address );
-			
-			donorList.add( speaker );
+			Speaker speaker = new Speaker( title, first, last, role, address, count );
+
+            for( int j = 0; j < count; j++ ) {
+                donorList.add(speaker);
+            }
 		}	
 	}
+
+	private void readStaff( Sheet staffSheet, Vector< Recipient > donorList ) {
+        // Get the column indexes for the information we need
+        int firstIndex = -1;
+        int lastIndex  = -1;
+        int colorIndex = -1;
+        int groupIndex = -1;
+        int roleIndex  = -1;
+
+        int streetIndex = -1;
+        int cityIndex   = -1;
+        int stateIndex  = -1;
+        int zipIndex    = -1;
+
+        int priorityIndex = -1;
+
+        Row header = staffSheet.getRow( 0 );
+        int numCells = header.getPhysicalNumberOfCells();
+        for( int i = 0; i < numCells; i++ ) {
+            Cell c = header.getCell( i );
+            if( c.getCellType() != Cell.CELL_TYPE_STRING ) {
+                continue;
+            }
+
+            String value = c.getStringCellValue();
+            if( value.matches( ".*First.*" ) ) {
+                firstIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Last.*" ) ) {
+                lastIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Group.*") ) {
+                groupIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Color.*") ) {
+                colorIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Role.*") ) {
+                roleIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Street.*" ) ) {
+                streetIndex = c.getColumnIndex();
+            } else if( value.matches( ".*City.*") ) {
+                cityIndex = c.getColumnIndex();
+            } else if( value.matches( ".*State.*") ) {
+                stateIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Zip.*") ) {
+                zipIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Letter Count.*") ) {
+                priorityIndex = c.getColumnIndex();
+            }
+
+            if( firstIndex >= 0 && lastIndex >= 0 && groupIndex >= 0 && colorIndex >= 0 && roleIndex >= 0 ) {
+                if( streetIndex >= 0 && cityIndex >= 0 && stateIndex >= 0 && zipIndex >= 0 ) {
+                    if( priorityIndex >= 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        int numRows = staffSheet.getPhysicalNumberOfRows();
+        for( int i = 1; i < numRows; i++ ) {
+            Row r = staffSheet.getRow( i );
+            if( r == null ) {
+                continue;
+            }
+
+            Cell fCell   = r.getCell( firstIndex );
+            if( fCell == null ) { continue; }
+            String first = ( fCell.getCellType() == Cell.CELL_TYPE_STRING || fCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? fCell.getStringCellValue() : "";
+
+            Cell lCell  = r.getCell( lastIndex );
+            if( lCell == null ) { continue; }
+            String last = ( lCell.getCellType() == Cell.CELL_TYPE_STRING || lCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? lCell.getStringCellValue() : "";
+
+            Cell sCell     = r.getCell( colorIndex );
+            if( sCell == null ) { continue; }
+            String section = ( sCell.getCellType() == Cell.CELL_TYPE_STRING || sCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? sCell.getStringCellValue() : "";
+
+            Cell gCell   = r.getCell( groupIndex );
+            if( gCell == null ) { continue; }
+            String group = ( gCell.getCellType() == Cell.CELL_TYPE_STRING || gCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? gCell.getStringCellValue() : "";
+
+            Cell rCell   = r.getCell( roleIndex );
+            if( rCell == null ) { continue; }
+            String role = ( rCell.getCellType() == Cell.CELL_TYPE_STRING || rCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? rCell.getStringCellValue() : "";
+
+            Cell pCell   = r.getCell( priorityIndex );
+            if( pCell == null ) { continue; }
+            int priority = ( pCell.getCellType() == Cell.CELL_TYPE_NUMERIC || pCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? (int) pCell.getNumericCellValue() : 1;
+
+            if( first == "" && last == "" ) {
+                continue;
+            }
+
+            Address address = getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex );
+            Staff s;
+            if( role.matches( "Section Leader") ) {
+                s = new Staff( first, last, String.format( "%s %s", section, role ), address, priority );
+            } else if( role.matches( "Facilitator" ) ) {
+                s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
+            } else if( role.matches( "J-Staff") || role.matches( "Junior Staff") || role.matches( "J Staff") ) {
+                studentList.add( new JStaff( first, last, section, group ) );
+                s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
+            } else {
+                s = new Staff( first, last, role, address, priority );
+            }
+
+            for( int j = 0; j < priority; j++ ) {
+                donorList.add(s);
+            }
+        }
+    }
 	
 	/**
 	 * 

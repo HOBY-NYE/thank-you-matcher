@@ -34,6 +34,11 @@ public class ZipCode implements Comparable<ZipCode> {
 
     }
 
+    @Override
+    public String toString() {
+        return plus4 < 0 ? String.format( "%5s", zip ) : String.format( "%5s-%4s", zip, plus4 );
+    }
+
     /*
      * (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
