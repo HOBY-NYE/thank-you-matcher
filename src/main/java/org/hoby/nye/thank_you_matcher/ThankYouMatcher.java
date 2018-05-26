@@ -100,14 +100,37 @@ public class ThankYouMatcher {
 			 *  to get the first Student. Should overload the compareTo method to return MAX_INT
 			 */
 			Vector< Writer > storage = new Vector<>();
-			
+			Recipient recipient = it.next();
 			Writer student = null;
+			boolean invalidMatch;
 			do {
 				student = studentList.poll();
 				storage.add( student );
-			} while( student instanceof JStaff );
+				invalidMatch = student instanceof JStaff;
+
+				if(!invalidMatch)
+                {
+                    if (recipient instanceof Staff)
+                    {
+                        Staff staff = (Staff) recipient;
+                        if (staff.getPosition().contains("Facilitator")
+                                || staff.getPosition().contains("Junior Staff"))
+                        {
+                            String[] position = staff.getPosition().split(" ");
+                            Student ambassador = (Student) student;
+                            invalidMatch = (ambassador != null && !ambassador.getGroup().equals(position[0]));
+                        }
+                        else if (staff.getPosition().contains("Section Leader"))
+                        {
+                            String[] position = staff.getPosition().split(" ");
+                            Student ambassador = (Student) student;
+                            invalidMatch = (ambassador != null && !ambassador.getSection().equals(position[0]));
+                        }
+                    }
+                }
+			} while( invalidMatch );
 			
-			student.addRecipient( it.next() );
+			student.addRecipient( recipient );
 			count++;
 			if (count - priorCount != 1)
             {
@@ -430,8 +453,17 @@ public class ThankYouMatcher {
 	 * @return
 	 */
 	private void getDonorInfo( Vector< Recipient > donorList ) {
-		// The sponsors and donors are on a sheet called Donations
-		String sheetName = null;
+        String sheetName = null;
+	    // The Staff are on a sheet called Staff
+        for( int i = 0; i < donors.getNumberOfSheets(); i++ ) {
+            if( donors.getSheetName( i ).matches( ".*Staff.*" ) ) {
+                sheetName = donors.getSheetName( i );
+                break;
+            }
+        }
+        readStaff( donors.getSheet( sheetName ), donorList );
+
+        // The sponsors and donors are on a sheet called Donations
 		for( int i = 0; i < donors.getNumberOfSheets(); i++ ) {
 			if( donors.getSheetName( i ).matches( ".*Donations.*" ) ) {
 				sheetName = donors.getSheetName( i );
@@ -449,15 +481,6 @@ public class ThankYouMatcher {
 		}
 		readSpeakers( donors.getSheet( sheetName ), donorList );
 
-		// The Staff are on a sheet called Staff
-        for( int i = 0; i < donors.getNumberOfSheets(); i++ ) {
-            if( donors.getSheetName( i ).matches( ".*Staff.*" ) ) {
-                sheetName = donors.getSheetName( i );
-                break;
-            }
-        }
-        readStaff( donors.getSheet( sheetName ), donorList );
-        System.out.println();
 	}
 	
 	/**
