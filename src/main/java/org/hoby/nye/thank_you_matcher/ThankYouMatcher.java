@@ -172,7 +172,7 @@ public class ThankYouMatcher {
 		
 		// Create the header row and populate it
 		Row header = matchSheet.createRow( 0 );
-		String[] headers = { "Student Name", "Student Section", "Student Group", "Donor Organization", "Donor Name", "Donor Address", "Donation" };
+		String[] headers = { "Student Name", "Student Section", "Student Group", "Donor Organization", "Donor Name", "Donor Address", "Donation", "Donation Information" };
 		for( int i = 0; i < headers.length; i++ ) {
 			Cell cell = header.createCell( i );
 			cell.setCellValue( headers[i] );
@@ -182,7 +182,6 @@ public class ThankYouMatcher {
 		int rownum = 0;
 		for( Iterator< Writer > it = studentList.iterator(); it.hasNext(); ) {
 			// JStaff can be treated as a Student here because the needed information is stored in the Student super class of JStaff
-
             Student student = ( Student ) it.next();
 
 			// Create and populate a row for each recipient
@@ -203,7 +202,7 @@ public class ThankYouMatcher {
 					} else {
 						r.createCell( 5 ).setCellValue( String.format( "%s %n%s, %s %s", address.getLine1(), address.getCity(), address.getState(), address.getZip() ) );
 					}
-					r.createCell( 6 ).setCellValue( donor.getDonation() );
+                    r.createCell( 6 ).setCellValue( donor.getDonorInfo() );
 				} else if( recip instanceof Speaker ) {
 					Speaker speaker = ( Speaker ) recip;
 					r.createCell( 3 ).setCellValue( "" );
@@ -331,123 +330,7 @@ public class ThankYouMatcher {
 		}
 		
 	}
-	
-	/**
-	 * 
-	 * @param donorList
-	 */
-	private void getStaffInfo( Vector< Recipient > donorList ) {
-		// Get the sheet that contains the group assignments
-		Sheet staffSheet = staff.getSheetAt( 0 );
-				
-		// Get the column indexes for the information we need
-		int firstIndex = -1;
-		int lastIndex  = -1;
-		int colorIndex = -1;
-		int groupIndex = -1;
-		int roleIndex  = -1;
 
-		int streetIndex = -1;
-		int cityIndex   = -1;
-		int stateIndex  = -1;
-		int zipIndex    = -1;
-
-		int priorityIndex = -1;
-
-		Row header = staffSheet.getRow( 0 );
-		int numCells = header.getPhysicalNumberOfCells();
-		for( int i = 0; i < numCells; i++ ) {
-			Cell c = header.getCell( i );
-			if( c.getCellType() != Cell.CELL_TYPE_STRING ) {
-				continue;
-			}
-			
-			String value = c.getStringCellValue();
-			if( value.matches( ".*First.*" ) ) {
-				firstIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Last.*" ) ) {
-				lastIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Group.*") ) {
-				groupIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Color.*") ) {
-				colorIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Role.*") ) {
-				roleIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Street.*" ) ) {
-				streetIndex = c.getColumnIndex();
-			} else if( value.matches( ".*City.*") ) {
-				cityIndex = c.getColumnIndex();
-			} else if( value.matches( ".*State.*") ) {
-				stateIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Zip.*") ) {
-				zipIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Letter Count.*") ) {
-				priorityIndex = c.getColumnIndex();
-			}
-			
-			if( firstIndex >= 0 && lastIndex >= 0 && groupIndex >= 0 && colorIndex >= 0 && roleIndex >= 0 ) {
-				if( streetIndex >= 0 && cityIndex >= 0 && stateIndex >= 0 && zipIndex >= 0 ) {
-					if( priorityIndex >= 0 ) {
-						break;
-					}
-				}
-			}
-		}
-		
-		int numRows = staffSheet.getPhysicalNumberOfRows();
-		for( int i = 1; i < numRows; i++ ) {
-			Row r = staffSheet.getRow( i );
-			if( r == null ) {
-				continue;
-			}
-			
-			Cell fCell   = r.getCell( firstIndex );
-			if( fCell == null ) { continue; }
-			String first = ( fCell.getCellType() == Cell.CELL_TYPE_STRING || fCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? fCell.getStringCellValue() : "";
-			
-			Cell lCell  = r.getCell( lastIndex );
-			if( lCell == null ) { continue; }
-			String last = ( lCell.getCellType() == Cell.CELL_TYPE_STRING || lCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? lCell.getStringCellValue() : "";
-			
-			Cell sCell     = r.getCell( colorIndex );
-			if( sCell == null ) { continue; }
-			String section = ( sCell.getCellType() == Cell.CELL_TYPE_STRING || sCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? sCell.getStringCellValue() : "";
-			
-			Cell gCell   = r.getCell( groupIndex );
-			if( gCell == null ) { continue; }
-			String group = ( gCell.getCellType() == Cell.CELL_TYPE_STRING || gCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? gCell.getStringCellValue() : "";
-			
-			Cell rCell   = r.getCell( roleIndex );
-			if( rCell == null ) { continue; }
-			String role = ( rCell.getCellType() == Cell.CELL_TYPE_STRING || rCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? rCell.getStringCellValue() : "";
-
-			Cell pCell   = r.getCell( priorityIndex );
-			if( pCell == null ) { continue; }
-			int priority = ( pCell.getCellType() == Cell.CELL_TYPE_NUMERIC || pCell.getCellType() == Cell.CELL_TYPE_FORMULA ) ? (int) pCell.getNumericCellValue() : 1;
-
-			if( first == "" && last == "" ) {
-				continue;
-			}
-
-			Address address = getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex );
-			Staff s;
-			if( role.matches( "Section Leader") ) {
-			    s = new Staff( first, last, String.format( "%s %s", section, role ), address, priority );
-			} else if( role.matches( "Facilitator" ) ) {
-				s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
-			} else if( role.matches( "J-Staff") || role.matches( "Junior Staff") || role.matches( "J Staff") ) {
-				studentList.add( new JStaff( first, last, section, group ) );
-                s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
-			} else {
-				s = new Staff( first, last, role, address, priority );
-			}
-
-            for( int j = 0; j < priority; j++ ) {
-                donorList.add(s);
-            }
-		}
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -491,6 +374,7 @@ public class ThankYouMatcher {
 		int lastIndex   = -1;
 		int orgIndex    = -1;
 		int typeIndex   = -1;
+		int infoIndex   = -1;
 		
 		int streetIndex = -1;
 		int cityIndex   = -1;
@@ -501,7 +385,7 @@ public class ThankYouMatcher {
 		int beneFirstIndex = -1;
 		int beneLastIndex  = -1;
 
-		int priorityIndex = -1;
+		int countIndex = -1;
 
 		int donorCount = 0;
 
@@ -522,7 +406,9 @@ public class ThankYouMatcher {
 				orgIndex = c.getColumnIndex();
 			} else if( value.matches( ".*Donor Type.*") ) {
 				typeIndex = c.getColumnIndex();
-			} else if( value.matches( ".*Street.*" ) ) {
+			}  else if( value.matches( ".*Donation Info.*") ) {
+                infoIndex = c.getColumnIndex();
+            } else if( value.matches( ".*Street.*" ) ) {
 				streetIndex = c.getColumnIndex();
 			} else if( value.matches( ".*City.*") ) {
 				cityIndex = c.getColumnIndex();
@@ -537,13 +423,13 @@ public class ThankYouMatcher {
 			} else if( value.matches( ".*Beneficiary Type.*") ) {
 				beneTypeIndex = c.getColumnIndex();
 			} else if( value.matches( ".*Letter Count.*") ) {
-				priorityIndex = c.getColumnIndex();
+				countIndex = c.getColumnIndex();
 			}
 			
-			if( firstIndex >= 0 && lastIndex >= 0 && orgIndex >= 0 && typeIndex >= 0) {
+			if( firstIndex >= 0 && lastIndex >= 0 && orgIndex >= 0 && typeIndex >= 0 && infoIndex >= 0) {
 				if( streetIndex >= 0 && cityIndex >= 0 && stateIndex >= 0 && zipIndex >= 0 ) {
 					if( beneTypeIndex >= 0 && beneFirstIndex >= 0 && beneLastIndex >=0 ) {
-						if( priorityIndex >= 0 ) {
+						if( countIndex >= 0 ) {
 							break;
 						}
 					}
@@ -578,15 +464,20 @@ public class ThankYouMatcher {
 			Cell typeCell = r.getCell( typeIndex );
 			if( typeCell != null ) { type = typeCell.getStringCellValue(); }
 
+			String info = "";
+			Cell infoCell = r.getCell( infoIndex );
+			if( infoCell != null ) { info = infoCell.getStringCellValue(); }
+
 			int count = 1;
-			Cell countCell = r.getCell( priorityIndex );
+			Cell countCell = r.getCell( countIndex );
 			if( countCell != null ) { count = (int)countCell.getNumericCellValue(); }
 			
 			if( first == "" && last == "" && org == "" ) {
 				continue;
 			}
-			Donor donor = new Donor( first, last, org, type, "", address, count );
+			Donor donor = new Donor( first, last, org, type, "", info, address );
 			donorCount++;
+
 			// If this donor sponsored a student or j-staff, add it
 			String beneType = "";
 			Cell beneTypeCell = r.getCell( beneTypeIndex );
@@ -705,7 +596,7 @@ public class ThankYouMatcher {
 			if( first == "" && last == "" ) {
 				continue;
 			}
-			Speaker speaker = new Speaker( title, first, last, role, address, count );
+			Speaker speaker = new Speaker( title, first, last, role, address );
 
             for( int j = 0; j < count; j++ ) {
                 donorList.add(speaker);
@@ -806,14 +697,14 @@ public class ThankYouMatcher {
             Address address = getAddress( r, streetIndex, cityIndex, stateIndex, zipIndex );
             Staff s;
             if( role.matches( "Section Leader") ) {
-                s = new Staff( first, last, String.format( "%s %s", section, role ), address, priority );
+                s = new Staff( first, last, String.format( "%s %s", section, role ), address );
             } else if( role.matches( "Facilitator" ) ) {
-                s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
+                s = new Staff( first, last, String.format( "%s %s", group, role ), address );
             } else if( role.matches( "J-Staff") || role.matches( "Junior Staff") || role.matches( "J Staff") ) {
                 studentList.add( new JStaff( first, last, section, group ) );
-                s = new Staff( first, last, String.format( "%s %s", group, role ), address, priority );
+                s = new Staff( first, last, String.format( "%s %s", group, role ), address );
             } else {
-                s = new Staff( first, last, role, address, priority );
+                s = new Staff( first, last, role, address );
             }
 
             for( int j = 0; j < priority; j++ ) {

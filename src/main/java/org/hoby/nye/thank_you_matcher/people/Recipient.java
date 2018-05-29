@@ -19,7 +19,7 @@ public abstract class Recipient {
 	 * @param state
 	 * @param zip
 	 */
-	public Recipient( String line1, String line2, String city, String state, String zip, int letterCount ) {
+	public Recipient( String line1, String line2, String city, String state, String zip ) {
 		ZipCode zipCode;
 
 		if( zip.contains("-")) {
@@ -30,7 +30,6 @@ public abstract class Recipient {
 		}
 
 		address = new Address( line1, line2, city, state, zipCode );
-		this.letterCount = letterCount;
 	}
 	
 	/**
@@ -41,9 +40,8 @@ public abstract class Recipient {
 	 * @param state
 	 * @param zip
 	 */
-	public Recipient( String line1, String line2, String city, String state, ZipCode zip, int letterCount ) {
+	public Recipient( String line1, String line2, String city, String state, ZipCode zip ) {
 		address = new Address( line1, line2, city, state, zip );
-		this.letterCount = letterCount;
 	}
 	
 	/**
@@ -53,8 +51,8 @@ public abstract class Recipient {
 	 * @param state
 	 * @param zip
 	 */
-	public Recipient( String street, String city, String state, String zip, int letterCount ) {
-		this(street, "", city, state, zip, letterCount);
+	public Recipient( String street, String city, String state, String zip ) {
+		this( street, "", city, state, zip );
 	}
 
     /**
@@ -64,17 +62,16 @@ public abstract class Recipient {
      * @param state
      * @param zip
      */
-    public Recipient( String street, String city, String state, ZipCode zip, int letterCount ) {
-        this( street, "", city, state, zip, letterCount );
+    public Recipient( String street, String city, String state, ZipCode zip ) {
+        this( street, "", city, state, zip );
     }
 	
 	/**
 	 * 
 	 * @param address
 	 */
-	public Recipient( Address address, int letterCount ) {
+	public Recipient( Address address ) {
 		this.address = address;
-		this.letterCount = letterCount;
 	}
 	
 	/**
