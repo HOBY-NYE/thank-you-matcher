@@ -18,7 +18,7 @@ public class Speaker extends Recipient implements Person {
 	/**
 	 * @param address
 	 */
-	public Speaker(String title, String first, String last, String role, Address address) {
+	public Speaker(String title, String first, String last, String role, Address address ) {
 		super(address);
 		
 		this.title = title;

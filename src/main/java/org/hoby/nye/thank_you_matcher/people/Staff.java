@@ -17,8 +17,8 @@ public class Staff extends Recipient implements Person {
 	/**
 	 * @param address
 	 */
-	public Staff(String first, String last, String position, Address address) {
-		super(address);
+	public Staff(String first, String last, String position, Address address ) {
+		super(address );
 		firstName = first;
 		lastName = last;
 		this.position = position;

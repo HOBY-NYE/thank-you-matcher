@@ -27,4 +27,4 @@ before_cache:
 
 script:
   - ./gradlew clean build
-  - sonar-scanner
+  - ./gradlew sonarqube

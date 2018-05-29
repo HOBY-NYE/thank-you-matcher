@@ -9,6 +9,7 @@ import org.hoby.nye.thank_you_matcher.utility.ZipCode;
  */
 public abstract class Recipient {
 	protected Address address;
+	protected int letterCount;
 
 	/**
 	 * 
@@ -51,7 +52,7 @@ public abstract class Recipient {
 	 * @param zip
 	 */
 	public Recipient( String street, String city, String state, String zip ) {
-		this(street, "", city, state, zip);
+		this( street, "", city, state, zip );
 	}
 
     /**
@@ -83,4 +84,11 @@ public abstract class Recipient {
 		
 	}
 
+	/**
+	 *
+	 * @return the number of letters this receipient receives
+	 */
+	public int getLetterCount() {
+		return letterCount;
+	}
 }
