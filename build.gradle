@@ -19,10 +19,18 @@ description = 'Creates an Excel spreadsheet with information about who a student
 
 mainClassName = 'org.hoby.nye.thank_you_matcher.ThankYouMatcher'
 
-jar {
+shadowJar {
+    baseName = project.name
+    version = null
+    classifier = null
+
     manifest {
-        attributes('Main-Class': 'org.hoby.nye.thank_you_matcher.ThankYouMatcher')
+        attributes('Description': project.description)
     }
+}
+
+shadowDistTar {
+    classifier = null
 }
 
 tasks.withType(JavaCompile) {
