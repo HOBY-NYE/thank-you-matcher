@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.hoby.nye.thank_you_matcher.people;
+package org.hoby.nye.tym.people;
 
 import java.util.List;
 import java.util.Vector;

@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.hoby.nye.thank_you_matcher.people;
+package org.hoby.nye.tym.people;
 
-import org.hoby.nye.thank_you_matcher.utility.Address;
+import org.hoby.nye.tym.utility.Address;
 
 /**
  * @author Tim
