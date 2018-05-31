@@ -25,6 +25,29 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
-script:
-  - ./gradlew clean build
-  - ./gradlew sonarqube
+jobs:
+  include:
+    - stage: compile
+      script: ./gradlew clean assemble
+    - stage: test
+      script: ./gradlew build
+      script: ./gradlew sonarqube
+    - stage: deploy
+      script: skip
+      before_deploy:
+        - git config --local user.name "hobynye"
+        - git config --local user.email "hobynye@github.com"
+        - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+      deploy:
+        provider: releases
+        api_key:
+          secure: "QmUFnTWDf92greTlD5KwVzKFCqBxhMSkoVCyyZnkW+65sykV7v+9TLMxdpgUgjXCbn/GuzBIaFIx2qN27zS7gtzCla8865YU4ZrVmiDuXMTyVX/gucq0at07B6KLou5C9l57Tk3kGkyLczpdy62RWCFaDkLfS989XenLMFEOc4RO+5TTCJ0ra7Ir+L84HKhEstL7BLBJPcfYVWIrXozBaKbG+XEJvt77nV1I/mmCrCK4hF5OX/NICgFMTl3bxs/i78DABsrRp+8akzCvFJ0qRhez2qALbFHFts6zbMKyG3xVNw2I1i9QIf5Cpv/SkXvIHduMmGObiSCVSbao9EiQJuFkLfDgvI7lO0AXyVC+JbeK50/Q15H2HPfwhCJL77nqNbQvejS+B26gGOodi3vhfdkJK9DaRYfDBCgNNKC3R5FADlT4tsy3G+K0PPKL5XJvwMP4aFM1Az0Z02GfNHqK7Ixpm5UvpyvkJhJVNbRttmIAHOFq2bFMrfmG7fgnG1kHE25wWfnfL4FBUaC6QvUH6F7lQsCOwmEnNZmUyQeSjs8Lb+tSys0WKSMwL78WXhUupin+gkopmouZ0ms/I2GD36WZbmBDWJcBaqmO8niJKCv7bcKuqARUiJpqbxny55fYKXM1PFrXOH9zgCNq5d+aADPpLyk1TcSKQQ+S4="
+        file_glob: true
+        file:
+          - build/distributions/*.tar
+          - build/distributions/*.zip
+        draft: true
+        prerelease: true
+        skip_cleanup: true
+        on:
+          tags: true
