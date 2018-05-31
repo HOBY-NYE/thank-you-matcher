@@ -1,8 +1,10 @@
 plugins {
+    id "org.sonarqube" version "2.6.1"
     id 'com.github.johnrengelman.shadow' version '2.0.4'
+
     id 'java'
     id 'application'
-    id "org.sonarqube" version "2.6.1"
+
 }
 
 repositories {
@@ -20,19 +22,28 @@ description = 'Creates an Excel spreadsheet with information about who a student
 mainClassName = 'org.hoby.nye.thank_you_matcher.ThankYouMatcher'
 
 jar {
+    baseName = project.name
+    version = null
+    classifier = null
+
     manifest {
-        attributes('Main-Class': 'org.hoby.nye.thank_you_matcher.ThankYouMatcher')
+        attributes([
+                'Description': project.description,
+        ])
     }
+}
+
+shadowDistTar {
+    classifier = null
 }
 
 tasks.withType(JavaCompile) {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     options.encoding    = 'UTF-8'
-    options.compilerArgs.add('-Xlint:deprecation')
 }
 
-task Wrapper(type: Wrapper) {
+task wrapper(type: Wrapper) {
     description      = 'Generates gradlew and gradlew.bat scripts'
     gradleVersion    = '4.7'
     distributionType = Wrapper.DistributionType.ALL
