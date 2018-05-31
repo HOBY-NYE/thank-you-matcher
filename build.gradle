@@ -19,7 +19,7 @@ description = 'Creates an Excel spreadsheet with information about who a student
 
 mainClassName = 'org.hoby.nye.thank_you_matcher.ThankYouMatcher'
 
-shadowJar {
+jar {
     baseName = project.name
     version = null
     classifier = null
@@ -29,10 +29,6 @@ shadowJar {
     }
 }
 
-shadowDistTar {
-    classifier = null
-}
-
 tasks.withType(JavaCompile) {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -40,7 +36,7 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add('-Xlint:deprecation')
 }
 
-task Wrapper(type: Wrapper) {
+task wrapper(type: Wrapper) {
     description      = 'Generates gradlew and gradlew.bat scripts'
     gradleVersion    = '4.7'
     distributionType = Wrapper.DistributionType.ALL
