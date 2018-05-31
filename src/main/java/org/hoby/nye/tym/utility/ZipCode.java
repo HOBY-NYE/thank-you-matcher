@@ -1,4 +1,4 @@
-package org.hoby.nye.thank_you_matcher.utility;
+package org.hoby.nye.tym.utility;
 
 import java.security.InvalidParameterException;
 

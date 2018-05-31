@@ -1,4 +1,4 @@
-package org.hoby.nye.thank_you_matcher;
+package org.hoby.nye.tym;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,20 +15,16 @@ import java.util.Vector;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.hoby.nye.thank_you_matcher.people.Donor;
-import org.hoby.nye.thank_you_matcher.people.JStaff;
-import org.hoby.nye.thank_you_matcher.people.Recipient;
-import org.hoby.nye.thank_you_matcher.people.Speaker;
-import org.hoby.nye.thank_you_matcher.people.Staff;
-import org.hoby.nye.thank_you_matcher.people.Student;
-import org.hoby.nye.thank_you_matcher.people.Writer;
-import org.hoby.nye.thank_you_matcher.utility.Address;
-import org.hoby.nye.thank_you_matcher.utility.ZipCode;
+import org.hoby.nye.tym.people.Donor;
+import org.hoby.nye.tym.people.JStaff;
+import org.hoby.nye.tym.people.Recipient;
+import org.hoby.nye.tym.people.Speaker;
+import org.hoby.nye.tym.people.Staff;
+import org.hoby.nye.tym.people.Student;
+import org.hoby.nye.tym.people.Writer;
+import org.hoby.nye.tym.utility.Address;
+import org.hoby.nye.tym.utility.ZipCode;
 
-/**
- * @author Tim
- *
- */
 public class ThankYouMatcher {
 	private Workbook donors;
 	private Workbook staff;

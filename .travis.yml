@@ -1,12 +1,10 @@
 language: java
-
-dist: trusty
 sudo: false
 install: true
 
 addons:
   sonarcloud:
-    organization: hoby-nye
+    organization: hobynye
     token:
       secure: "W3ftXYhaWAUEnYTJo7NIp9dGgQp0GZcWkvdWypI/lqoFfAYFmzDEUghAqZpFZfIggm6ymFaEfJJtxnWyJgVfwyOMRIr2Y6PzAVXJcf70rjpaKbAdrYDWnFynOV2FCAPfPBztA6Ej8piuLfWMtZiTEp9GkvNzQh9uLJ9yp2SZeAoa7usUUAuv8qu5scviXC2zrrIa1Ln6Et+t6qe2HOGirmumANmxmouEClTAw5hm23sazPp662/ro71LXjU3hJqUA4nbuI0Hpbd5EAdHJa+wAGZnLQMhUvfCu5x0FTl6tBeeS/RzedSndMba1JoDhPJaYJQZR8FgDj5/DQAVozQVTtZSarWSpUCJ+lIzm9ijsXJljy1qNdBzJ0UlcVQSE9SQdQGFr7ya2CzFBzAYG0yV2MnoeV7XTBiizuAyzeafTa/Qd23km2R45a/aMU7GJR1ADhXhQ8vR5OA1hKWx8ZEUfKsslmzF2TpTip2dPunF8onBgoW5aEk6uxOScQUxdM+LAp5Z/U9AaAazH3vEp85jnxevkROteE8bVZBoj9bJxk/gt4evV9F4b7SXqqXtuQMuB7FJ1huzoWilSWA7SD9wKw+gzNEG2XGP2TWo4MoYCBsRj8UtpNeDqXEr02I96phAbPNGB5fBWqsV0gYzghRG7MtOfwfUsF8e6U7F7UaxkKE="
 

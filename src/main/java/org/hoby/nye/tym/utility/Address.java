@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.hoby.nye.thank_you_matcher.utility;
+package org.hoby.nye.tym.utility;
 
 /**
  * @author Tim
