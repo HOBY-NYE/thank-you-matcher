@@ -24,9 +24,9 @@ before_install:
 - chmod -R +x .
 
 script:
-  - "gradlew clean build"
+  - "./gradlew clean build"
   - sonar-scanner
-  - "gradlew assemble"
+  - "./gradlew assemble"
 
 deploy:
   provider: releases
