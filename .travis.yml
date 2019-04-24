@@ -6,22 +6,39 @@ addons:
   sonarcloud:
     organization: hobynye
     token:
-      secure: "TRkWefQYbmBRBOU8RevEKQuuIqPKlQ6glEShf2hQIz1NsBzURmkulpIcJK8vxCDH2InIUI1OoJB7SSZt5nDixdp1AstXgCeIWkePqnzyGcpNmrzBTR11ILSDZ6Jj/+H+kl6ykyBp3QAJPC5ghzb7q6d9XC0OZGXb7siwbLnv8TUIOeDKxDr7Z2o4sapBN9SZL0kPJvobU8fQ+heN77EjqVtIXKQSCLdHm+PnHT9rmHB7JJDla3By39KyW+ZieN7MXfcP9/33RzKHTlZop6wTA8D6nl3rDLa1wnQd2WUfGeV6p2AdegFl4XP0k+/XgrxOodcTz3zpY2R7VYLPkpd61tPTKNQCNnB/PX8/f9SC8E78gH1DCDYoHbD3pFq6hb9j0PRTCP0IfIjk3KSv2lPzZ6AHY7kwvaLYabMZhBbmtNDl2QsRK7s8e131r7xaHxEnMDLYiBQd62hAzUj8SXIdEZF7aFAJy+vleYsxf1eaLJ70tz1Y01no6edB9+0T8GbtDXmUw/mt46+ZyREUtRNH8l/BuPKgaojqvkRUrkW1BDR8avCByKHvJ+iCsXL7I8inzaJo71emKn2OVShPzfvJsPvgBkGCmAHxhEu0J9Ack7iivTxLF92nwkI4wyyVrQTciN9LtlhCgCsnvMEdDq/5+9VTvlZulTknpVakdGxyZow="
+      secure: TRkWefQYbmBRBOU8RevEKQuuIqPKlQ6glEShf2hQIz1NsBzURmkulpIcJK8vxCDH2InIUI1OoJB7SSZt5nDixdp1AstXgCeIWkePqnzyGcpNmrzBTR11ILSDZ6Jj/+H+kl6ykyBp3QAJPC5ghzb7q6d9XC0OZGXb7siwbLnv8TUIOeDKxDr7Z2o4sapBN9SZL0kPJvobU8fQ+heN77EjqVtIXKQSCLdHm+PnHT9rmHB7JJDla3By39KyW+ZieN7MXfcP9/33RzKHTlZop6wTA8D6nl3rDLa1wnQd2WUfGeV6p2AdegFl4XP0k+/XgrxOodcTz3zpY2R7VYLPkpd61tPTKNQCNnB/PX8/f9SC8E78gH1DCDYoHbD3pFq6hb9j0PRTCP0IfIjk3KSv2lPzZ6AHY7kwvaLYabMZhBbmtNDl2QsRK7s8e131r7xaHxEnMDLYiBQd62hAzUj8SXIdEZF7aFAJy+vleYsxf1eaLJ70tz1Y01no6edB9+0T8GbtDXmUw/mt46+ZyREUtRNH8l/BuPKgaojqvkRUrkW1BDR8avCByKHvJ+iCsXL7I8inzaJo71emKn2OVShPzfvJsPvgBkGCmAHxhEu0J9Ack7iivTxLF92nwkI4wyyVrQTciN9LtlhCgCsnvMEdDq/5+9VTvlZulTknpVakdGxyZow=
+
 jdk:
-  - oraclejdk8
-
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
-before_install:
-  - chmod -R +x .
+- oraclejdk8
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+
+before_install:
+- chmod -R +x .
+
 script:
-  - ./gradlew clean build
-  - ./gradlew sonarqube
+  - "gradlew clean build"
+  - sonar-scanner
+  - "gradlew assemble"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: edLmj1E7TIigBaJCGbuiIU1n70X5tuPlX5M3w6SxkjeIS+U5liv2duz19aVEawGj7+CfSDFmUqsH7eyW1GnO0eN4GSM+dDPsgyMDbqesK493V8vYBWKvO/uyXAJeIJaiY7FP8Ifyukcmdhwp+9BlV2JKwWoWcElYYDDi5ZF7Zw4vaIlmYKBXkPmb27FT0+n1FaYNcmtg4VtgIqVxyrDacHgZajS62Cw+MB4x3p7fDscUUtPp9e8483hNnIQSVQJj2solyvgiKmL2703moh+oo5z5pnX1+GvdGWo+prj1hTlsf6bT0YCjQEjAlFPRtFgnWvjWIjRN0oG2FHXf+56NdDaglxUsaWvPKjqGe/nEblR0B8zfvPYfs7KVN14Fv6AaY3NjUZGGqyUYROAa4Sk/h+d9nxUC10QN7TQgR6KunOSF0xZarNoWG5BvDf/PFJIxIUu3qfCDya3LQY6DqSmAfPVwWiIKHXGO6zfKX1ac4UiMbH/9oiY1VhELaH1JaH6XYgqUlDIgq+duSOWyNS34d4Sd+NoxzM3Py9T9TnM7ZrDKQxnWqki2GDjpLRTgmEZotQ6TelNF/+YCdKOKq8NeUZQrN2ZyTkwG1xs20JrOtU/FJZxdbbhkyqyfchjsB+aRBKQUr088q6XfNr3t9L2DVCRMXvYSmKR/z9yJwb2jS5w=
+  file_glob: true
+  file:
+    - "build/**/thank-you-matcher-*.tar"
+    - "build/**/thank-you-matcher-*.zip"
+    - "build/**/thank-you-matcher=*-sources.jar"
+    - "build/**/thank-you-matcher=*-javadoc.jar"
+  skip_cleanup: true
+  draft: true
+  on:
+    tags: true
