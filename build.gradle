@@ -1,8 +1,9 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
-    id 'java'
     id 'application'
-    id "org.sonarqube" version "2.6.1"
+    id 'java'
+    id 'jacoco'
+
+//    id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
 repositories {
@@ -10,34 +11,43 @@ repositories {
 }
 
 dependencies {
-    compile 'org.apache.poi:poi-ooxml:3.17'
+    implementation 'org.apache.poi:poi-ooxml:3.17'
 }
 
-group       = 'org.hoby.nye'
+group       = 'org.hoby.nye.tym'
 version     = '1.1.0'
 description = 'Creates an Excel spreadsheet with information about who a student should write a thank you letter to.'
 
-mainClassName = 'org.hoby.nye.thank_you_matcher.ThankYouMatcher'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-jar {
-    baseName = project.name
-    version = null
-    classifier = null
+wrapper {
+    gradleVersion    = '5.4'
+    distributionType = Wrapper.DistributionType.ALL
+}
 
-    manifest {
-        attributes('Description': project.description)
-    }
+application {
+    mainClassName = 'org.hoby.nye.tym.ThankYouMatcher'
 }
 
 tasks.withType(JavaCompile) {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    
     options.encoding    = 'UTF-8'
     options.compilerArgs.add('-Xlint:deprecation')
 }
 
-task wrapper(type: Wrapper) {
-    description      = 'Generates gradlew and gradlew.bat scripts'
-    gradleVersion    = '4.7'
-    distributionType = Wrapper.DistributionType.ALL
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadocJar.dependsOn(javadoc)
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
