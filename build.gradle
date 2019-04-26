@@ -3,6 +3,7 @@ plugins {
     id 'java'
     id 'jacoco'
 
+    id 'org.sonarqube' version '2.7'
 //    id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
@@ -21,6 +22,7 @@ description = 'Creates an Excel spreadsheet with information about who a student
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+
 wrapper {
     gradleVersion    = '5.4'
     distributionType = Wrapper.DistributionType.ALL
@@ -30,9 +32,15 @@ application {
     mainClassName = 'org.hoby.nye.tym.ThankYouMatcher'
 }
 
+sonarqube {
+    properties {
+        property 'sonar.projectName', 'Thank You Matcher'
+    }
+}
+
 tasks.withType(JavaCompile) {
     options.encoding    = 'UTF-8'
-    options.compilerArgs.add('-Xlint:deprecation')
+    options.compilerArgs += ['-Xlint:deprecation']
 }
 
 task sourcesJar(type: Jar) {
