@@ -1,16 +1,16 @@
 #Thank You Matcher
 
 [![Build Status](https://travis-ci.org/hobynye/thank-you-matcher.svg?branch=master)](https://travis-ci.org/hobynye/thank-you-matcher)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
 
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=sqale_index)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=bugs)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=code_smells)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=coverage)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=sqale_index)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=bugs)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=code_smells)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=coverage)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye%3Athank-you-matcher&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
 
 _Thank You Matcher_ creates a pairing of student attendees to one of the annual [Hugh O'Brian Youth](http://hoby.org) 
 (HOBY) seminars and the sponsors, donors, and organizations that have contributed. Because each seminar is fully 
@@ -19,7 +19,7 @@ of life to attend. By having the students write these generous people and groups
 commitment to making future leaders.
 
 ###Download
-You can download the [latest version](https://github.com/hobynye/thank-you-matcher/releases/latest) from the [Releases](https://github.com/hobynye/thank-you-matcher/releases) page.
+You can download the [latest version](https://github.com/hobynye/thank-you-matcher/releases/latest) from the [releases](https://github.com/hobynye/thank-you-matcher/releases) page.
 
 ###Usage
 _Thank You Matcher_ is distributed as a .zip file for Windows and a .tar file for *nix. To install the tool, simply
