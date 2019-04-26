@@ -1,4 +1,4 @@
-#Thank You Matcher
+# Thank You Matcher
 
 [![Build Status](https://travis-ci.org/hobynye/thank-you-matcher.svg?branch=master)](https://travis-ci.org/hobynye/thank-you-matcher)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
@@ -18,10 +18,10 @@ organized, staffed, and funded by volunteers; these sponsorships and donations h
 of life to attend. By having the students write these generous people and groups a personalized Thank-You shows our 
 commitment to making future leaders.
 
-###Download
+### Download
 You can download the [latest version](https://github.com/hobynye/thank-you-matcher/releases/latest) from the [releases](https://github.com/hobynye/thank-you-matcher/releases) page.
 
-###Usage
+### Usage
 _Thank You Matcher_ is distributed as a .zip file for Windows and a .tar file for *nix. To install the tool, simply
 extract the distribution for your system. Included is a bin directory that contains two start up scripts.
 
@@ -31,7 +31,7 @@ arguments:
    - --studentFile <students.xlxs>
    - --donorFile <donors.xlxs>
 
-##Contributing
+## Contributing
 If you are interested in contributing, please see our [contributing guide](https://github.com/hobynye/.github/blob/master/CONTRIBUTING.md#contributing)
 for full details.
 
