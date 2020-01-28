@@ -1,9 +1,15 @@
 language: java
 
-os:
-  - linux
-
+os: linux
 dist: trusty
+
+git:
+  depth: false
+
+addons:
+  sonarcloud:
+    organization: "hobynye"
+    token: ${SONAR_TOKEN}
 
 jdk:
   - oraclejdk8
@@ -21,6 +27,9 @@ cache:
 
 before_install:
   - chmod -R +x .
+
+script:
+  - ./gradlew sonarqube
 
 deploy:
   provider: releases
