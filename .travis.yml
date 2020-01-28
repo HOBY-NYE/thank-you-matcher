@@ -5,6 +5,11 @@ os:
 
 dist: trusty
 
+addons:
+  sonarcloud:
+    organization: "hobynye"
+    token: ${SONAR_TOKEN}
+
 jdk:
   - oraclejdk8
   - oraclejdk9
@@ -21,6 +26,10 @@ cache:
 
 before_install:
   - chmod -R +x .
+
+script:
+  - ./gradlew sonarqube
+  - ./gradlew check
 
 deploy:
   provider: releases

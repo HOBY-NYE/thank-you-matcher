@@ -1,6 +1,6 @@
 # Thank You Matcher
 
-[![Build Status](https://travis-ci.org/hobynye/thank-you-matcher.svg?branch=master)](https://travis-ci.org/hobynye/thank-you-matcher)
+[![Build Status](https://travis-ci.com/hobynye/thank-you-matcher.svg?branch=master)](https://travis-ci.com/hobynye/thank-you-matcher)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
 
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=sqale_index)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
