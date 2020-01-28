@@ -1,9 +1,10 @@
 language: java
 
-os:
-  - linux
-
+os: linux
 dist: trusty
+
+git:
+  depth: false
 
 addons:
   sonarcloud:
@@ -29,7 +30,6 @@ before_install:
 
 script:
   - ./gradlew sonarqube
-  - ./gradlew check
 
 deploy:
   provider: releases
