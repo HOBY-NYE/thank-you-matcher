@@ -20,10 +20,7 @@ before_install:
 jobs:
   include:
     - stage: "Quality Checks"
-      name: "Unit Tests"
-      script: ./gradlew check
     - script: ./gradlew sonarqube
-      name: "SonarCload"
     - stage: "Deploy"
       name: "Deploy"
       script: skip
