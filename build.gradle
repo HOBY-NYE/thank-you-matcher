@@ -9,6 +9,7 @@ wrapper {
 
 sonarqube {
     properties {
-        property 'sonor.projectKey', 'org.hoby.nye.tym:thank-you-matcher'
+        property 'sonar.organization', 'hobynye'
+        property 'sonar.projectKey', 'org.hoby.nye.tym:thank-you-matcher'
     }
 }
