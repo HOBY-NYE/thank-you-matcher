@@ -1,5 +1,10 @@
 language: java
 
+addons:
+  sonarcloud:
+    organization: "hobynye"
+    token: ${SONAR_TOKEN}
+
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -f $HOME/.gradle/caches/*/plugin-resolution
@@ -11,3 +16,21 @@ cache:
 
 before_install:
   - chmod +x ./gradlew
+
+jobs:
+  include:
+    - stage: "Test"
+      name: "Unit Tests"
+      script: ./gradlew check
+    - stage: "Static Analysis"
+      name: "SonarCload"
+      script: ./gradle sonarqube
+    - stage: "Deploy"
+      name: "Deploy"
+      script: skip
+      deploy:
+        provider: releases
+        api_key: ${GITHUB_TOKEN}
+        skip_cleanup: true
+        on:
+          tags: true
