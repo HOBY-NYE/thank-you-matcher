@@ -22,7 +22,7 @@ jobs:
     - stage: "Quality Checks"
       name: "Unit Tests"
       script: ./gradlew check
-    - script: ./gradle sonarqube
+    - script: ./gradlew sonarqube
       name: "SonarCload"
     - stage: "Deploy"
       name: "Deploy"
