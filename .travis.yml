@@ -26,7 +26,6 @@ jobs:
       script: skip
       deploy:
         provider: releases
-        api_key: ${GITHUB_TOKEN}
-        skip_cleanup: true
+        token: ${GITHUB_TOKEN}
         on:
           tags: true
