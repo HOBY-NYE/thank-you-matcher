@@ -1,0 +1,3 @@
+rootProject.name = "Thank You Matcher"
+
+include 'core', 'api', 'ui'
