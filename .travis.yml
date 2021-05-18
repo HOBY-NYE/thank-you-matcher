@@ -15,6 +15,7 @@ cache:
     - $HOME/.gradle/wrapper
 
 before_install:
+  - git fetch origin
   - chmod +x ./gradlew
 
 jobs:
