@@ -17,16 +17,11 @@ cache:
 before_install:
   - chmod +x ./gradlew
 
-jobs:
-  include:
-    - stage: "Quality Checks"
-      name: "Quality checking"
-    - script: ./gradlew sonarqube
-    - stage: "Deploy"
-      name: "Deploy"
-      script: skip
-      deploy:
-        provider: releases
-        token: ${GITHUB_TOKEN}
-        on:
-          tags: true
+script:
+  - ./gradlew sonarqube
+
+deploy:
+  provider: releases
+  token: ${GITHUB_TOKEN}
+    on:
+      tags: true
