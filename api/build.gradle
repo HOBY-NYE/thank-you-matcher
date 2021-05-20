@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+    implementation project(':ui')
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -13,18 +14,6 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-bootRun {
-    enabled = false
-}
-
-bootJar {
-    enabled = false
-}
-
-jar {
-    enabled = true
 }
 
 test {

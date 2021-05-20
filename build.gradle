@@ -2,7 +2,7 @@ plugins {
     id 'org.sonarqube' version '3.2.0'
 }
 
-group = 'org.hoby.nye'
+group = 'nye'
 version = '2.0'
 
 subprojects {
@@ -19,6 +19,6 @@ wrapper {
 sonarqube {
     properties {
         property 'sonar.organization', 'hobynye'
-        property 'sonar.projectKey', 'org.hoby.nye:thank-you-matcher'
+        property 'sonar.projectKey', 'nye:thank-you-matcher'
     }
 }

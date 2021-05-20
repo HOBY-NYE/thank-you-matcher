@@ -1,16 +1,16 @@
 # Thank You Matcher
 
 [![Build Status](https://travis-ci.com/hobynye/thank-you-matcher.svg?branch=main)](https://travis-ci.com/hobynye/thank-you-matcher)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=alert_status)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
 
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=sqale_index)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=bugs)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=code_smells)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=coverage)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=sqale_index)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=bugs)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=code_smells)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=coverage)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.hoby.nye.tym%3Athank-you-matcher&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.hoby.nye%3Athank-you-matcher)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nye.org.hoby.tym%3Athank-you-matcher&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nye%3Athank-you-matcher)
 
 _Thank You Matcher_ creates a pairing of student attendees to one of the annual [Hugh O'Brian Youth](http://hoby.org) 
 (HOBY) seminars and the sponsors, donors, and organizations that have contributed. Because each seminar is fully 
